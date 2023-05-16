@@ -25,12 +25,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         myList = arrayListOf()
         initWidgets()
-        addToList()
         setupListeners()
-
-        val savedInfo : RecyclerView = findViewById(R.id.rvShowSavedInfo)
-        savedInfo.layoutManager = LinearLayoutManager(this)
-        savedInfo.adapter = TestAdapter(myList)
     }
 
     private fun addToList() {
@@ -44,8 +39,12 @@ class MainActivity : AppCompatActivity() {
             if(fieldsValidationResult.isNotEmpty()){
                 markErrorFields(fieldsValidationResult)
             } else {
-                discardMessage()
+                addToList()
+                val savedInfo : RecyclerView = findViewById(R.id.rvShowSavedInfo)
+                savedInfo.layoutManager = LinearLayoutManager(this)
+                savedInfo.adapter = TestAdapter(myList)
                 Toast.makeText(this, "Saved", Toast.LENGTH_LONG).show()
+                discardMessage()
             }
         }
     }
