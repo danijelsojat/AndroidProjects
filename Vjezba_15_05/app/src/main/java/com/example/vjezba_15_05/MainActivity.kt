@@ -8,6 +8,10 @@ import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
+const val EXTRA1 = "EXTRA1"
+const val EXTRA2 = "EXTRA2"
+
+
 class MainActivity : AppCompatActivity() {
 
     private lateinit var et1 : EditText

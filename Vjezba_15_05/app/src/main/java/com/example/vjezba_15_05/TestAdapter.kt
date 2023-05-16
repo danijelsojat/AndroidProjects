@@ -1,5 +1,6 @@
 package com.example.vjezba_15_05
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,10 +22,22 @@ class TestAdapter(val items: ArrayList<User>) : Adapter<TestAdapter.InfoViewHold
     override fun onBindViewHolder(holder: InfoViewHolder, position: Int) {
         holder.tv1.text = items[position].name
         holder.tv2.text = items[position].date
+
     }
 
     class InfoViewHolder(view: View) : ViewHolder(view) {
+
         val tv1: TextView = view.findViewById(R.id.tv1)
         val tv2: TextView = view.findViewById(R.id.tv2)
+
+        init {
+            itemView.setOnClickListener {
+                val startNextActivity = Intent(view.context, ItemActivity::class.java).apply {
+                    putExtra(EXTRA1, tv1.text.toString())
+                    putExtra(EXTRA2, tv2.text.toString())
+                }
+                view.context.startActivity(startNextActivity)
+            }
+        }
     }
 }
