@@ -18,6 +18,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var et2 : EditText
     private lateinit var myList: ArrayList<User>
     private lateinit var bSave: Button
+    private lateinit var adapter: TestAdapter
 
     enum class SavedInfoFields {
         NAME,
@@ -28,8 +29,13 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         myList = arrayListOf()
+        adapter = TestAdapter(myList)
         initWidgets()
         setupListeners()
+
+        val savedInfo : RecyclerView = findViewById(R.id.rvShowSavedInfo)
+        savedInfo.layoutManager = LinearLayoutManager(this)
+        savedInfo.adapter = adapter
     }
 
     private fun addToList() {
@@ -44,9 +50,7 @@ class MainActivity : AppCompatActivity() {
                 markErrorFields(fieldsValidationResult)
             } else {
                 addToList()
-                val savedInfo : RecyclerView = findViewById(R.id.rvShowSavedInfo)
-                savedInfo.layoutManager = LinearLayoutManager(this)
-                savedInfo.adapter = TestAdapter(myList)
+                adapter.setNewItems(myList)
                 Toast.makeText(this, "Saved", Toast.LENGTH_LONG).show()
                 discardMessage()
             }

@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import androidx.recyclerview.widget.RecyclerView.Adapter
 
 
-class TestAdapter(val items: ArrayList<User>) : Adapter<TestAdapter.InfoViewHolder>(){
+class TestAdapter(var items: ArrayList<User>) : Adapter<TestAdapter.InfoViewHolder>(){
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): InfoViewHolder {
         return InfoViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.saved_info, parent, false))
@@ -23,6 +23,11 @@ class TestAdapter(val items: ArrayList<User>) : Adapter<TestAdapter.InfoViewHold
         holder.tv1.text = items[position].name
         holder.tv2.text = items[position].date
 
+    }
+
+    fun setNewItems(items: ArrayList<User>){
+        this.items = items
+        notifyDataSetChanged()
     }
 
     class InfoViewHolder(view: View) : ViewHolder(view) {
