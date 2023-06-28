@@ -10,7 +10,7 @@
         android:id="@+id/firstFragment"
         android:name="com.example.parcijalni_ispit_28_06_2023.FirstFragment"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="match_parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
 
