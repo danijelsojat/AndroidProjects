@@ -25,6 +25,8 @@ class PodsjetnikAdapter(var items: ArrayList<Podsjetnik>) : RecyclerView.Adapter
         holder.itemView.setOnClickListener {
             items.removeAt(position)
             notifyItemRemoved(position)
+            notifyItemRangeChanged(position, items.size)
+            notifyDataSetChanged()
         }
 
     }
