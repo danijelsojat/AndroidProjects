@@ -22,6 +22,10 @@ class PodsjetnikAdapter(var items: ArrayList<Podsjetnik>) : RecyclerView.Adapter
     override fun onBindViewHolder(holder: InfoViewHolder, position: Int) {
         holder.text1.text = items[position].podsjetnik
         holder.text2.text = items[position].detalji
+        holder.itemView.setOnClickListener {
+            items.removeAt(position)
+            notifyItemRemoved(position)
+        }
 
     }
 
@@ -29,17 +33,11 @@ class PodsjetnikAdapter(var items: ArrayList<Podsjetnik>) : RecyclerView.Adapter
         this.items = items
         notifyDataSetChanged()
     }
-
     class InfoViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
         val text1: TextView = view.findViewById(R.id.text1)
         val text2: TextView = view.findViewById(R.id.text2)
 
-        init {
-            itemView.setOnClickListener {
-
-            }
-        }
     }
 
 }
