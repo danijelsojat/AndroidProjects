@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "208010628016",
+    "project_id": "step-counter-77f78",
+    "storage_bucket": "step-counter-77f78.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:208010628016:android:e0dd09ee66f33ca00d2475",
+        "android_client_info": {
+          "package_name": "com.example.danijelsojat.stepcounter"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "208010628016-nb0adlapdc03grqpt4j90nmc9kkqgjpc.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.danijelsojat.stepcounter",
+            "certificate_hash": "9aca8b5e6ef7170d04263c17da47c94601cf0abf"
+          }
+        },
+        {
+          "client_id": "208010628016-dhagmip6k3dk62ip0spov6bjbsmu2sj7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBod-OQzkMZgcAUnG6DSu4O8g7W4KpxPvI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "208010628016-dhagmip6k3dk62ip0spov6bjbsmu2sj7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

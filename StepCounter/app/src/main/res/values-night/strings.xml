@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Step Counter</string>
+    <string name="sign_in_with_google">Sign in with Google</string>
+    <string name="web_client_id">"208010628016-dhagmip6k3dk62ip0spov6bjbsmu2sj7.apps.googleusercontent.com"</string>
+</resources>
