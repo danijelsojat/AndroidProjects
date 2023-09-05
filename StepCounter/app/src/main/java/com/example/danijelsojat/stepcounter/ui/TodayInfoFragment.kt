@@ -6,13 +6,11 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
 import com.example.danijelsojat.stepcounter.DAILY_GOAL_FROM_PREFS
 import com.example.danijelsojat.stepcounter.DAILY_GOAL_PREFS
 import com.example.danijelsojat.stepcounter.NEW_SENSOR_PREFS
 import com.example.danijelsojat.stepcounter.R
 import com.example.danijelsojat.stepcounter.SENSOR_PREFS
-import com.example.danijelsojat.stepcounter.SEVEN_DAYS_STEPS
 import com.example.danijelsojat.stepcounter.databinding.FragmentTodayInfoBinding
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.BarData

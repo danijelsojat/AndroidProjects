@@ -2,7 +2,6 @@ package com.example.danijelsojat.stepcounter.model
 
 import android.content.Context
 import android.content.Context.MODE_PRIVATE
-import android.util.Log
 import com.example.danijelsojat.stepcounter.NEW_SENSOR_PREFS
 import com.example.danijelsojat.stepcounter.SENSOR_PREFS
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
@@ -12,6 +11,7 @@ import com.google.android.gms.fitness.data.DataType
 import com.google.android.gms.fitness.request.DataSourcesRequest
 import com.google.android.gms.fitness.request.OnDataPointListener
 import com.google.android.gms.fitness.request.SensorRequest
+import timber.log.Timber
 import java.util.concurrent.TimeUnit
 
 interface IStepCounterRepositorySensorEvents {
@@ -19,8 +19,6 @@ interface IStepCounterRepositorySensorEvents {
     // interface preko kojeg repository sluša promjene
     fun onNewDataFetched(newCount: Int)
 }
-
-private const val TAG = "GoogleFitSensorClient"
 
 class GoogleFitSensorClient {
 
@@ -36,10 +34,10 @@ class GoogleFitSensorClient {
         Fitness.getRecordingClient(context, account)
             .subscribe(DataType.TYPE_STEP_COUNT_DELTA)
             .addOnSuccessListener {
-                Log.d(TAG, "RecordingClient: recording client successfully subscribed")
+                Timber.d("RecordingClient: recording client successfully subscribed")
             }
             .addOnFailureListener { e ->
-                Log.d(TAG, "RecordingClient: problem subscribing recording client", e)
+                Timber.d("RecordingClient: problem subscribing recording client", e)
             }
 
         Fitness.getRecordingClient(context, account)
@@ -48,7 +46,7 @@ class GoogleFitSensorClient {
                 for (sc in subscriptions) {
                     val dt = sc.dataType
                     if (dt != null) {
-                        Log.d(TAG, "RecordingClient: Active subscription for data type: ${dt.name}")
+                        Timber.d("RecordingClient: Active subscription for data type: ${dt.name}")
                     }
                 }
             }
@@ -70,10 +68,10 @@ class GoogleFitSensorClient {
                     .build(), listener
             )
             .addOnSuccessListener {
-                Log.d(TAG, "SensorsClient: listener registered")
+                Timber.d("SensorsClient: listener registered")
             }
             .addOnFailureListener {
-                Log.d(TAG, "fetchDataFromGoogleFit: listener not registered")
+                Timber.d("fetchDataFromGoogleFit: listener not registered")
             }
 
         Fitness.getSensorsClient(context, account)
@@ -85,15 +83,15 @@ class GoogleFitSensorClient {
             )
             .addOnSuccessListener { dataSources ->
                 dataSources.forEach {
-                    Log.d(TAG, "SensorsClient: DataSource found: ${it.streamIdentifier}")
-                    Log.d(TAG, "SensorsClient: DataSource type: ${it.dataType.name}")
+                    Timber.d("SensorsClient: DataSource found: ${it.streamIdentifier}")
+                    Timber.d("SensorsClient: DataSource type: ${it.dataType.name}")
                     if (it.dataType == DataType.TYPE_STEP_COUNT_DELTA) {
-                        Log.d(TAG, "SensorsClient: Data source for STEP COUNT DELTA found!")
+                        Timber.d("SensorsClient: Data source for STEP COUNT DELTA found!")
                     }
                 }
             }
             .addOnFailureListener {
-                Log.d(TAG, "SensorsClient: Data source for STEP COUNT DELTA NOT found!")
+                Timber.d("SensorsClient: Data source for STEP COUNT DELTA NOT found!")
             }
     }
 

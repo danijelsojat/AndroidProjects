@@ -2,7 +2,6 @@ package com.example.danijelsojat.stepcounter.model
 
 import android.content.Context
 import android.content.Context.MODE_PRIVATE
-import android.util.Log
 import android.widget.Toast
 import com.example.danijelsojat.stepcounter.NEW_SENSOR_PREFS
 import com.example.danijelsojat.stepcounter.SENSOR_PREFS
@@ -12,11 +11,10 @@ import com.google.android.gms.fitness.data.DataSet
 import com.google.android.gms.fitness.data.DataType
 import com.google.android.gms.fitness.data.Field
 import com.google.android.gms.fitness.request.DataReadRequest
+import timber.log.Timber
 import java.time.LocalDateTime
 import java.time.ZoneId
 import java.util.concurrent.TimeUnit
-
-private const val TAG = "GoogleFitHistoryClient"
 
 interface IStepCounterRepositoryHistoryEvents {
 
@@ -63,7 +61,7 @@ class GoogleFitHistoryClient {
             }
             .addOnFailureListener { e ->
                 Toast.makeText(context, "Failed to access Google Fit", Toast.LENGTH_SHORT).show()
-                Log.d(TAG, "HistoryClient: failed to get data from google fit", e)
+                Timber.d("HistoryClient: failed to get data from google fit", e)
             }
     }
 
