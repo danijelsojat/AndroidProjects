@@ -4,6 +4,8 @@ import android.content.Context
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 
 interface IOnGoogleFitDataFetched {
+
+    // interface preko kojeg activity sluša promjene
     fun onNewDataFetched(newCount: Int)
     fun onTodayDataFetched(todayCount: Int)
     fun onSevenDaysDataFetched(lastSevenDaysCount: Int)
@@ -12,6 +14,7 @@ interface IOnGoogleFitDataFetched {
 
 class StepCounterPresenter(val onGoogleFitDataFetched: IOnGoogleFitDataFetched): IStepCounterPresenterEvents {
 
+    // inicijalizacija repository objekta za obradu podataka u presenteru
     val stepCounterRepository: StepCounterRepository = StepCounterRepository(this)
 
     init {

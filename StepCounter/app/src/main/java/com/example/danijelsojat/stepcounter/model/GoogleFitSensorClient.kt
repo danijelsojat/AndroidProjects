@@ -15,6 +15,8 @@ import com.google.android.gms.fitness.request.SensorRequest
 import java.util.concurrent.TimeUnit
 
 interface IStepCounterRepositorySensorEvents {
+
+    // interface preko kojeg repository sluša promjene
     fun onNewDataFetched(newCount: Int)
 }
 
@@ -22,10 +24,15 @@ private const val TAG = "GoogleFitSensorClient"
 
 class GoogleFitSensorClient {
 
+    // klasa za registraciju listenera na sensor promjene te spremanje i obradu tih podataka
+
     var stepCounterRepositorySensorEvents: IStepCounterRepositorySensorEvents? = null
     var newCount = 0
 
     fun fetchNewData(context: Context, account: GoogleSignInAccount) {
+
+        // funkcija za dohvaćanje novih koraka registriranih preko senzora uređaja
+
         Fitness.getRecordingClient(context, account)
             .subscribe(DataType.TYPE_STEP_COUNT_DELTA)
             .addOnSuccessListener {
@@ -47,6 +54,7 @@ class GoogleFitSensorClient {
             }
 
         val listener = OnDataPointListener { dataPoint ->
+            // postavljanje listenera na promjene senzora, taj podatak se sprema u varijablu
             for (field in dataPoint.dataType.fields) {
                 val value = dataPoint.getValue(field)
                 newCount = value.asInt()
@@ -90,6 +98,11 @@ class GoogleFitSensorClient {
     }
 
     private fun onNewDataFetched(context: Context) {
+        //  kreiranje shared prefs za spremanje promjena u senzoru
+        // za prvi broj se postavlja dohvaćeni dnevni broj koraka
+        // na taj broj nadodajem nove korake iz senzora te ih spremam u isti shared prefs radi korištenja u fragmentu
+        // za prikaz dnevnog grafa i šaljem preko onNewDataFetched u activity i home fragment za prikaz i promjenu
+        // u progress baru
         val sharedPreferences = context.getSharedPreferences(SENSOR_PREFS, MODE_PRIVATE)
         val previousCount = sharedPreferences.getInt(NEW_SENSOR_PREFS, 0)
         val totalCount = previousCount + newCount

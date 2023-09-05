@@ -21,6 +21,8 @@ import com.github.mikephil.charting.data.BarEntry
 
 class TodayInfoFragment : Fragment() {
 
+    // fragment za prikaz današnjih koraka
+
     private lateinit var binding: FragmentTodayInfoBinding
     var todaySteps: Int = 0
     var dailyGoal: Float = 0f
@@ -30,6 +32,7 @@ class TodayInfoFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        // dohvaćanje dnevnog cilja i trenutnih koraka za prikaz u grafu
         todaySteps = requireContext()
             .getSharedPreferences(SENSOR_PREFS, MODE_PRIVATE)
             .getInt(NEW_SENSOR_PREFS, 0)
@@ -53,6 +56,10 @@ class TodayInfoFragment : Fragment() {
     }
 
     private fun updateUI() {
+        // obrada i prikaz podataka u grafu
+        // preuzeto sa https://github.com/PhilJay/MPAndroidChart
+        // obrada i izgled nisu baš prejasno pojašnjeni, malo sam se s time igrao kako bi dobio
+        // što lijepši prikaz ali nisam baš pohvatao sve customizacije koje se ispod koriste
         barDataSet1 = BarDataSet(getBarChartDataForSet1(), "Steps made today")
         barDataSet1.color = resources.getColor(R.color.blue_700)
         barDataSet2 = BarDataSet(getBarChartDataForSet2(), "Steps goal for today")

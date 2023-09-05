@@ -5,6 +5,8 @@ import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
 
+// view pager adapter
+
 class HistoryInfoAdapter(val fragments: List<Fragment>, supportFragmentManager: FragmentManager, lifecycle: Lifecycle)
     : FragmentStateAdapter(supportFragmentManager, lifecycle){
 

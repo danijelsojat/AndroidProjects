@@ -18,6 +18,8 @@ import com.github.mikephil.charting.data.BarEntry
 
 class SevenDayInfoFragment : Fragment() {
 
+    // fragment za prikaz povijesti koraka za zadnjih 7 dana
+
     private lateinit var binding: FragmentSevenDayInfoBinding
     var sevenDaySteps: Int = 0
     var dailyGoal: Float = 0f
@@ -28,6 +30,7 @@ class SevenDayInfoFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        // preuzimanje podataka iz bundle i shared prefs za dnevni cilj za usporedbu
         arguments?.let {
             sevenDaySteps = it.getInt(SEVEN_DAYS_STEPS)
         }
@@ -52,6 +55,10 @@ class SevenDayInfoFragment : Fragment() {
     }
 
     private fun updateUI() {
+        // obrada i prikaz podataka u grafu
+        // preuzeto sa https://github.com/PhilJay/MPAndroidChart
+        // obrada i izgled nisu baš prejasno pojašnjeni, malo sam se s time igrao kako bi dobio
+        // što lijepši prikaz ali nisam baš pohvatao sve customizacije koje se ispod koriste
         barDataSet1 = BarDataSet(getBarChartDataForSet1(), "Steps made in last 7 days")
         barDataSet1.color = resources.getColor(R.color.blue_700)
         barDataSet2 = BarDataSet(getBarChartDataForSet2(), "Steps goal for last 7 days")

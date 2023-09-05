@@ -13,6 +13,8 @@ import com.google.android.material.tabs.TabLayoutMediator
 
 class HistoryInfoFragment : Fragment() {
 
+    // fragment za prikaz povijesti koraka
+
     private lateinit var binding: FragmentHistoryInfoBinding
     private lateinit var todayInfoFragment: TodayInfoFragment
     private lateinit var sevenDayInfoFragment: SevenDayInfoFragment
@@ -22,6 +24,8 @@ class HistoryInfoFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        // inicijalizacija fragmenata i dohvaćanje podataka iz bundlea te proslijeđivanje istih podataka u sljedeće fragmente
 
         initFragments()
         arguments?.let {
@@ -52,6 +56,8 @@ class HistoryInfoFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // kreiranje viewa i view pagera
+
         val fragments = listOf(todayInfoFragment, sevenDayInfoFragment, thirtyDayInfoFragment)
         val titles = listOf("Today", "Last 7 days", "Last 30 days")
 
@@ -67,6 +73,7 @@ class HistoryInfoFragment : Fragment() {
     }
 
     private fun initFragments() {
+        // inicijalizacija fragmenata koji se korite u view pageru
         todayInfoFragment = TodayInfoFragment()
         sevenDayInfoFragment = SevenDayInfoFragment()
         thirtyDayInfoFragment = ThirtyDayInfoFragment()

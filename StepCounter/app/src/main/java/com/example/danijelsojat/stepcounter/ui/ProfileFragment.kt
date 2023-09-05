@@ -23,6 +23,8 @@ import com.google.firebase.auth.FirebaseUser
 
 class ProfileFragment : Fragment() {
 
+    // fragment za prikaz profila logiranog korisnika te log out iz aplikacije
+
     private lateinit var binding: FragmentProfileBinding
     private lateinit var signedInClient: GoogleSignInClient
     private lateinit var firebaseAuth: FirebaseAuth
@@ -50,6 +52,9 @@ class ProfileFragment : Fragment() {
     }
 
     private fun buttonLogic() {
+        // logika buttona za edit dnevnih koraka i log out iz aplikacije, prilikom log out briše se iz memorije
+        // spremljeni podatak za dnevni cilj koraka kako se ne bi dogodilo da se više korisnika logira a aplikacija
+        // svima prikazuje spremljeni podatak prvog logiranog korisnika
         binding.bSignOut.setOnClickListener {
             requireContext().getSharedPreferences(DAILY_GOAL_PREFS, AppCompatActivity.MODE_PRIVATE)
                 .edit().putString(DAILY_GOAL_FROM_PREFS, "").apply()
@@ -61,10 +66,12 @@ class ProfileFragment : Fragment() {
     }
 
     private fun editDailyGoal() {
+        // obrada podataka za promjenu dnevnog cilja koraka
         val sharedPreferences = requireContext()
             .getSharedPreferences(DAILY_GOAL_PREFS, AppCompatActivity.MODE_PRIVATE)
         val editor = sharedPreferences.edit()
 
+        // custom made izgled dialoga
         val view: View = layoutInflater.inflate(R.layout.daily_goal_dialog, null)
         val goalEntered = view.findViewById<EditText>(R.id.etDailyGoal)
         val saveBtn = view.findViewById<Button>(R.id.bSaveInput)
@@ -88,6 +95,9 @@ class ProfileFragment : Fragment() {
     }
 
     private fun signOut() {
+        // logika i obrada tijekom odjave
+        // finish affinity se koristi za čišćenje povijesti kako bi se izbjeglo da se dogodi odjava a na back button se ipak
+        // vrati zadnji fragment i prikaz podataka korisnika koji se odjavio, vraća korisnika na starting (splash) screen
         signedInClient.signOut().addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 firebaseAuth.signOut()
@@ -103,13 +113,14 @@ class ProfileFragment : Fragment() {
     }
 
     private fun setupGoogleSignIn() {
-        GoogleSignInSingleton.setupGoogleSignIn(requireContext())
+        //dohvaćanje podataka o korisniku iz singletona
         firebaseAuth = GoogleSignInSingleton.setupFirebaseUser()
         signedInClient = GoogleSignInSingleton.fetchGoogleSignedInClient()
         signedInFirebaseUser = GoogleSignInSingleton.fetchFirebaseUser()
     }
 
     private fun checkFirebaseUser() {
+        // provjera logiranog usera i update UI s njegovim podacima
         Glide.with(this).load(signedInFirebaseUser?.photoUrl).fitCenter().circleCrop()
             .into(binding.ivProfileImage)
         binding.tvNameInfo.text = signedInFirebaseUser?.displayName

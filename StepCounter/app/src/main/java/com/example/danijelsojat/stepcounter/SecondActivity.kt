@@ -55,6 +55,8 @@ class SecondActivity : AppCompatActivity(), IOnGoogleFitDataFetched {
     }
 
     private fun userPermissionCheck() {
+
+        // provjera dopuštenja
         if (!hasActivityPermission() && !hasCoarseLocationPermission() && !hasFineLocationPermission()) {
             requestPermissions()
         } else {
@@ -63,6 +65,8 @@ class SecondActivity : AppCompatActivity(), IOnGoogleFitDataFetched {
     }
 
     private fun hasActivityPermission(): Boolean {
+
+        // provjera dopuštenja za aktivnost
         return ActivityCompat.checkSelfPermission(
             this,
             android.Manifest.permission.ACTIVITY_RECOGNITION
@@ -70,6 +74,8 @@ class SecondActivity : AppCompatActivity(), IOnGoogleFitDataFetched {
     }
 
     private fun hasCoarseLocationPermission(): Boolean {
+
+        // provjera dopuštenja za lokaciju
         return ActivityCompat.checkSelfPermission(
             this,
             android.Manifest.permission.ACCESS_COARSE_LOCATION
@@ -77,6 +83,8 @@ class SecondActivity : AppCompatActivity(), IOnGoogleFitDataFetched {
     }
 
     private fun hasFineLocationPermission(): Boolean {
+
+        // provjera dopuštenja za lokaciju
         return ActivityCompat.checkSelfPermission(
             this,
             android.Manifest.permission.ACCESS_FINE_LOCATION
@@ -84,6 +92,8 @@ class SecondActivity : AppCompatActivity(), IOnGoogleFitDataFetched {
     }
 
     private fun requestPermissions() {
+
+        // traženje dopuštenja
         ActivityCompat.requestPermissions(
             this,
             arrayOf(
@@ -96,6 +106,8 @@ class SecondActivity : AppCompatActivity(), IOnGoogleFitDataFetched {
     }
 
     private fun activityPermissionDialog() {
+
+        // dialog za obavijest kako su dopuštenja za lokaciju i aktivnost bitna
         val permissionDialog: AlertDialog = AlertDialog.Builder(this@SecondActivity)
             .setTitle("Permissions")
             .setMessage("Application requires this permissions to work properly, you can also change them manually in app info in your settings")
@@ -114,6 +126,8 @@ class SecondActivity : AppCompatActivity(), IOnGoogleFitDataFetched {
         permissions: Array<out String>,
         grantResults: IntArray
     ) {
+
+        // obrada rezultata nakon dopuštenja/odbijanja dopuštenja
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == MY_PERMISSIONS_REQUEST_CODE) {
             if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED && grantResults[2] == PackageManager.PERMISSION_GRANTED) {
@@ -125,6 +139,7 @@ class SecondActivity : AppCompatActivity(), IOnGoogleFitDataFetched {
     }
 
     private fun initStepCounterPresenter() {
+        // inicijalizacija presentera te dohvaćanje podataka sa Fita ako su dopuštenja dana
         stepCounterPresenter = StepCounterPresenter(this)
         fitnessOptions = GoogleSignInSingleton.createFitnessOptions()
         account = GoogleSignIn.getAccountForExtension(this, fitnessOptions)
@@ -144,20 +159,24 @@ class SecondActivity : AppCompatActivity(), IOnGoogleFitDataFetched {
     }
 
     override fun onNewDataFetched(newCount: Int) {
+        // obrada novih koraka koje senzor čita i slanje tih podataka u fragment
         newSteps = newCount
         homeFragment.updateSteps(newSteps)
     }
 
     override fun onTodayDataFetched(todayCount: Int) {
+        // obrada podataka za današnji dan, nakon dohvaćanja podataka pokreće se dialog za upis dnevnog cilja koraka
         todaySteps = todayCount
         initDailyGoal()
     }
 
     override fun onSevenDaysDataFetched(lastSevenDaysCount: Int) {
+        // obrada podataka za zadnjih 7 dana
         sevenDaySteps = lastSevenDaysCount
     }
 
     override fun onThirtyDaysDataFetched(lastThirtyDaysCount: Int) {
+        // obrada podataka za zadnjih 30 dana, nakon što se dohvate ti podaci šaljem ih kroz bundle u fragment
         thirtyDaySteps = lastThirtyDaysCount
         val bundle = Bundle().apply {
             putInt(SEVEN_DAYS_STEPS, sevenDaySteps)
@@ -167,10 +186,12 @@ class SecondActivity : AppCompatActivity(), IOnGoogleFitDataFetched {
     }
 
     private fun initDailyGoal() {
+        // dialog za upis dnevnog cilja koraka, taj podatak spremam u shared prefs
         val sharedPreferences = getSharedPreferences(DAILY_GOAL_PREFS, MODE_PRIVATE)
         val editor = sharedPreferences.edit()
         dailyGoal = sharedPreferences.getString(DAILY_GOAL_FROM_PREFS, "")
 
+        // custom made izgled dialoga
         val view: View = layoutInflater.inflate(R.layout.daily_goal_dialog, null)
         val goalEntered = view.findViewById<EditText>(R.id.etDailyGoal)
         val saveBtn = view.findViewById<Button>(R.id.bSaveInput)
@@ -199,12 +220,14 @@ class SecondActivity : AppCompatActivity(), IOnGoogleFitDataFetched {
     }
 
     private fun initFragments() {
+        // kreiranje svih fragmenata koji se koriste u ovom activityu
         homeFragment = HomeFragment()
         historyInfoFragment = HistoryInfoFragment()
         profileFragment = ProfileFragment()
     }
 
     private fun initToolbar() {
+        // inicijalizacija toolbara
         setSupportActionBar(binding.toolbar)
         supportActionBar?.setIcon(R.drawable.app_white_icon)
         supportActionBar?.setTitle(R.string.app_name)
@@ -212,6 +235,7 @@ class SecondActivity : AppCompatActivity(), IOnGoogleFitDataFetched {
     }
 
     private fun initBottomBar() {
+        // inicijalizacija bottombara
         binding.bottomNavView.selectedItemId = R.id.home
         binding.bottomNavView.setOnItemSelectedListener {
             when (it.itemId) {
@@ -224,6 +248,7 @@ class SecondActivity : AppCompatActivity(), IOnGoogleFitDataFetched {
     }
 
     private fun setCurrentFragment(fragment: Fragment) {
+        // funkcija za postavljanje fragmenta u frame layout
         supportFragmentManager.beginTransaction().apply {
             replace(R.id.flFragmentView, fragment)
             commit()
@@ -231,6 +256,7 @@ class SecondActivity : AppCompatActivity(), IOnGoogleFitDataFetched {
     }
 
     override fun onBackPressed() {
+        // logika za gašenje aplikacije, potreban dvostruki pritisak na back button
         if (doubleBackToExit) {
             super.onBackPressed()
         } else {
@@ -241,6 +267,7 @@ class SecondActivity : AppCompatActivity(), IOnGoogleFitDataFetched {
     }
 
     override fun onDestroy() {
+        // budući da korake koje senzor učitava spremam u shared preferences prilikom gašenja aplikacije čistim spremljene vrijednosti
         super.onDestroy()
         getSharedPreferences(SENSOR_PREFS, MODE_PRIVATE).edit().putInt(NEW_SENSOR_PREFS, 0)
             .apply()

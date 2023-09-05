@@ -15,6 +15,8 @@ import com.example.danijelsojat.stepcounter.databinding.FragmentHomeBinding
 
 class HomeFragment : Fragment() {
 
+    // fragment za prikaz dnevnog cilja i dnevnih koraka
+
     private lateinit var binding: FragmentHomeBinding
     private var dailyGoal: String? = null
     private var totalSteps: Int = 0
@@ -39,12 +41,14 @@ class HomeFragment : Fragment() {
     override fun onResume() {
         super.onResume()
 
+        // dohvaćanje podataka o promjeni senzora i update viewa (prikaza koraka)
         val sharedPreferences = requireContext().getSharedPreferences(SENSOR_PREFS, MODE_PRIVATE)
         totalSteps = sharedPreferences.getInt(NEW_SENSOR_PREFS, 0)
         updateUI()
     }
 
     private fun getDailyGoal() {
+        // dohvaćanje podataka o dnevnom cilju kroz shared prefs
         dailyGoal = requireContext().getSharedPreferences(
             DAILY_GOAL_PREFS,
             AppCompatActivity.MODE_PRIVATE
@@ -52,6 +56,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun updateUI() {
+        // update prikaza koraka i progress bara
         getDailyGoal()
         binding.tvStepsMade.text = "$totalSteps"
         binding.circularProgressBar.apply {
@@ -66,6 +71,7 @@ class HomeFragment : Fragment() {
     }
 
     fun updateSteps(newCount: Int){
+        // funkcija koja se poziva za promjenu prikaza koraka, koristi se u second activity na promjeni senzora
         totalSteps = newCount
         updateUI()
     }

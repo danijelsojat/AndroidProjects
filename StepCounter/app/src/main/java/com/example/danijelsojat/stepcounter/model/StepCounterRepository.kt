@@ -4,6 +4,8 @@ import android.content.Context
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 
 interface IStepCounterPresenterEvents {
+
+    // interface preko kojeg presenter sluša promjene
     fun onNewDataFetched(newCount: Int)
     fun onTodayDataFetched(todayCount: Int)
     fun onSevenDaysDataFetched(lastSevenDaysCount: Int)
@@ -12,6 +14,7 @@ interface IStepCounterPresenterEvents {
 
 class StepCounterRepository(val onStepCounterPresenterEvents: IStepCounterPresenterEvents): IStepCounterRepositoryHistoryEvents, IStepCounterRepositorySensorEvents {
 
+    // inicijalizacija history i sensor client objekta za obradu u repositoryu
     val googleFitHistoryClient: GoogleFitHistoryClient = GoogleFitHistoryClient()
     val googleFitSensorClient: GoogleFitSensorClient = GoogleFitSensorClient()
     var stepCounterPresenterEvents: IStepCounterPresenterEvents? = null

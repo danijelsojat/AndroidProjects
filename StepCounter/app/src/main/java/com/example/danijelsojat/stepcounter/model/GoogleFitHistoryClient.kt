@@ -19,12 +19,16 @@ import java.util.concurrent.TimeUnit
 private const val TAG = "GoogleFitHistoryClient"
 
 interface IStepCounterRepositoryHistoryEvents {
+
+    // interface preko kojeg repository sluša promjene
     fun onTodayDataFetched(todayCount: Int)
     fun onSevenDaysDataFetched(lastSevenDaysCount: Int)
     fun onThirtyDaysDataFetched(lastThirtyDaysCount: Int)
 }
 
 class GoogleFitHistoryClient {
+
+    // klasa za dohvaćanje podataka o povijesti koraka
 
     var stepCounterRepositoryHistoryEvents: IStepCounterRepositoryHistoryEvents? = null
     var todayCount: Int = 0
@@ -33,6 +37,7 @@ class GoogleFitHistoryClient {
     var googleFitDataList: ArrayList<Int> = arrayListOf()
 
     fun fetchData(context: Context, account: GoogleSignInAccount) {
+        // funkcija koja na start time i end time odrađuje query po Google Fit podacima za zadnjih 30 dana
         val end = LocalDateTime.now()
         val start = end.minusDays(30).withHour(0).withMinute(0).withSecond(0).withNano(0)
         val endSeconds = end.atZone(ZoneId.systemDefault()).toEpochSecond()
@@ -63,6 +68,7 @@ class GoogleFitHistoryClient {
     }
 
     private fun saveInfo(dataSet: DataSet) {
+        // funkcija koja obrađuje dobivene data setove i iz njih dohvaća samo korake
         for (dp in dataSet.dataPoints) {
             val steps = dp.getValue(Field.FIELD_STEPS).asInt()
             googleFitDataList += steps
@@ -70,6 +76,9 @@ class GoogleFitHistoryClient {
     }
 
     private fun onTodayDataFetched(context: Context) {
+        // funkcija za obradu dnevnih dobivenih koraka
+        // ako postoji zapis za danas to će u listi biti 31. item i njega spremam u shared prefs
+        // te ga šaljem kroz onTodayData Fetched a ako ne postoji postavljam ga na 0
         todayCount = if (googleFitDataList.size == 31) {
             googleFitDataList[30]
         } else {
@@ -84,6 +93,8 @@ class GoogleFitHistoryClient {
     }
 
     private fun onSevenDaysDataFetched() {
+        // obrada podataka za zadnjih 7 dana, prolazim kroz listu i uzimam samo tih prijašnjih 7 brojeva te ih zbrajam
+        // zbroj šaljem kroz onSevenDaysDataFetched
         for (i in 23..29) {
             lastSevenDaysCount += googleFitDataList[i]
         }
@@ -91,6 +102,8 @@ class GoogleFitHistoryClient {
     }
 
     private fun onThirtyDaysDataFetched() {
+        // obrada podataka za zadnjih 30 dana, prolazim kroz listu i uzimam samo tih prijašnjih 30 brojeva te ih zbrajam
+        // zbroj šaljem kroz onSevenDaysDataFetched
         for (i in 0..29) {
             lastThirtyDaysCount += googleFitDataList[i]
         }

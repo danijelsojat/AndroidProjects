@@ -23,6 +23,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var firebaseAuth: FirebaseAuth
     private var signedInFirebaseUser: FirebaseUser? = null
 
+    // ovaj activity koristim za Google login formu
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -34,6 +36,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun buttonLogic() {
+        // logika buttona, pokreće Google login formu
         binding.bSignIn.setOnClickListener {
             val signInIntent = signedInClient.signInIntent
             startActivityForResult(signInIntent, GOOGLE_SIGN_IN_CLIENT_REQUEST_CODE)
@@ -41,12 +44,14 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun checkFirebaseUser() {
+        // provjera logiranog usera, ako postoji pokreće se second activity
         if (signedInFirebaseUser != null) {
             startActivity(Intent(this@MainActivity, SecondActivity::class.java))
         }
     }
 
     private fun setupGoogleSignIn() {
+        // inicijalizacija Google acc singletona
         GoogleSignInSingleton.setupGoogleSignIn(this)
         firebaseAuth = GoogleSignInSingleton.setupFirebaseUser()
         signedInClient = GoogleSignInSingleton.fetchGoogleSignedInClient()
@@ -55,6 +60,8 @@ class MainActivity : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
+
+        // obrada rezultata nakon Google login forme
 
         if (requestCode == GOOGLE_SIGN_IN_CLIENT_REQUEST_CODE) {
             val signInAccountTask: Task<GoogleSignInAccount> = GoogleSignIn.getSignedInAccountFromIntent(data)

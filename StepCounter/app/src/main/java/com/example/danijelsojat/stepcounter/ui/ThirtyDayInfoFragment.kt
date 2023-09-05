@@ -18,6 +18,8 @@ import com.github.mikephil.charting.data.BarEntry
 
 class ThirtyDayInfoFragment : Fragment() {
 
+    // fragment za prikaz povijesti koraka za zadnjih 30 dana
+
     private lateinit var binding: FragmentThirtyDayInfoBinding
     var thirtyDaySteps: Int = 0
     var dailyGoal: Float = 0f
@@ -27,6 +29,7 @@ class ThirtyDayInfoFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        // preuzimanje podataka iz bundle i shared prefs za dnevni cilj za usporedbu
         arguments?.let {
             thirtyDaySteps = it.getInt(THIRTY_DAYS_STEPS)
         }
@@ -51,6 +54,10 @@ class ThirtyDayInfoFragment : Fragment() {
     }
 
     private fun updateUI() {
+        // obrada i prikaz podataka u grafu
+        // preuzeto sa https://github.com/PhilJay/MPAndroidChart
+        // obrada i izgled nisu baš prejasno pojašnjeni, malo sam se s time igrao kako bi dobio
+        // što lijepši prikaz ali nisam baš pohvatao sve customizacije koje se ispod koriste
         barDataSet1 = BarDataSet(getBarChartDataForSet1(), "Steps made in last 30 days")
         barDataSet1.color = resources.getColor(R.color.blue_700)
         barDataSet2 = BarDataSet(getBarChartDataForSet2(), "Steps goal for last 30 days")

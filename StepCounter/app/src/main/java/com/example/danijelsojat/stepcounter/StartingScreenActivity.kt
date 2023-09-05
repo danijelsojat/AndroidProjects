@@ -9,6 +9,8 @@ class StartingScreenActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityStartingScreenBinding
 
+    // početni zaslon, koristi se kao loading screen
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityStartingScreenBinding.inflate(layoutInflater)
