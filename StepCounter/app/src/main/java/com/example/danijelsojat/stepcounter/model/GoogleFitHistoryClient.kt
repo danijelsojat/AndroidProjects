@@ -52,7 +52,11 @@ class GoogleFitHistoryClient {
             .addOnSuccessListener { response ->
                 for (bucket in response.buckets) {
                     for (dataSet in bucket.dataSets) {
-                        saveInfo(dataSet)
+                        if (dataSet.isEmpty) {
+                            googleFitDataList += 0
+                        } else {
+                            saveInfo(dataSet)
+                        }
                     }
                 }
                 onTodayDataFetched(context)
